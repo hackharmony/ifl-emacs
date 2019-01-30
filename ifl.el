@@ -10,10 +10,11 @@
 
 ;;; This package allows you to invoke web search engine results from Emacs in a new web browser window (or using EWW if you're in non-graphical mode or set a configuration variable to do this). As the name implies, this package features the ability to immediately redirect to the first search result on either Google or DuckDuckGo. This is generally useful when you need to quickly look up something like a compiler error code that almost certainly will have the best Stack Overflow result as the first search result, saving you some precious milliseconds.
 
+(require 'cl)
 (require 'request)
 (require 'request-deferred)
 (require 'eww)
-(require 'cl)
+(require 'browse-url)
 
 (defcustom ifl-default-search-engine 'google
 "Choose which search engine to use for ``I'm Feeling Lucky'' type requests where you want to just jump to the first result. Currently only Google and DuckDuckGo are supported, since they are the only ones that offer this feature."
@@ -26,22 +27,13 @@
     (duckduckgo "https://duckduckgo.com/?q=%s"))
   "Alist that maps names of available search engines with the format string for the URL of their result pages")
 
-(defcustom ifl-shell-open-command
-  (cond ((eql system-type 'gnu/linux) "xdg-open")
-        ((eql system-type 'darwin) "open")
-        ((eql system-type 'windows-nt) "explore"))
-  "A non-nil value specifies a shell command that can open your web browser when passed a URL. The command should name an executable that is on your system's PATH and visible to Emacs. Set to nil to use Emacs EWW mode to render web pages instead of a graphical web browser. On terminal instances, EWW is used anyway and ignores the command named by this variable.")
-
 (defvar ifl--query-history nil "Previous search queries")
 (defvar ifl--search-engines-history nil "Previous search engines used")
 
 (defun ifl--open-url (URL)
-  (if ifl-shell-open-command
-      (start-process "" nil ifl-shell-open-command
-                     URL)
-    ;; Fall back to EWW
-    ;; FIXME put this in a side window the same way *Help* buffers are
-    (eww URL)))
+  ;; FIXME put this in a side window the same way *Help* buffers are
+  (browse-url URL)
+  )
 
 (defun ifl--google (query)
   "I'm Feeling Lucky. Tries to get the URL to go to directly."
