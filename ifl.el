@@ -24,7 +24,7 @@
   '((google . "https://www.google.com/search?q=%s")
     (wikipedia . "https://wikipedia.org/w/index.php?title=Special:Search&search=%s")
     (wikitionary . "https://wiktionary.org/w/index.php?title=Special:Search&search=%s")
-    (duckduckgo "https://duckduckgo.com/?q=%s"))
+    (duckduckgo . "https://duckduckgo.com/?q=%s"))
   "Alist that maps names of available search engines with the format string for the URL of their result pages")
 
 (defvar ifl--query-history nil "Previous search queries")
@@ -74,6 +74,7 @@
          (concat "https://duckduckgo.com/?q=\\" query)))
     (ifl--open-url target-url)))
 
+;;;###autoload
 (defun ifl (query)
   "Loads the first result on a search engine for QUERY in a similar manner to ``I'm Feeling Lucky''.
 
@@ -92,6 +93,7 @@ Customize IFL-DEFAULT-SEARCH-ENGINE to choose either Google (default) or DuckDuc
    query))
 
 
+;;;###autoload
 (defun ifl-search (query search-engine)
   "Searches for QUERY on SEARCH-ENGINE using the URL format string specified in IFL-SEARCH-ENGINE-URLS-ALIST (customizable)."
   (interactive
