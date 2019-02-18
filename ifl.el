@@ -122,5 +122,6 @@ Customize IFL-DEFAULT-SEARCH-ENGINE to choose either Google (default) or DuckDuc
     (ifl--open-url target-url)))
 
 (provide 'ifl)
+(provide 'ifl-search)
 
 ;;; ifl.el ends here
